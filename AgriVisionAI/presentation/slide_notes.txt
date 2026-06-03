@@ -1,0 +1,17 @@
+Slide 1
+
+Project Name
+
+AI-Based Crop Recommendation System Using Machine Learning
+
+Slide 2
+
+Problem
+
+Farmers need data-driven crop selection guidance to increase yield and reduce risk.
+
+Slide 3
+
+Solution
+
+A machine learning model recommends the best crop based on soil type, rainfall, temperature, and humidity.
