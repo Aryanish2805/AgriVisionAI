@@ -1,5 +1,6 @@
 import streamlit as st
 import sys
+import requests
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
@@ -124,7 +125,33 @@ with tab_recommend:
                 record["location"] = location
 
             if st.button("Recommend crop", key="recommend_kaggle"):
-                result = recommend_from_record(record)
+                try:
+                    # Make HTTP POST to FastAPI backend
+                    response = requests.post(
+                        "http://localhost:8000/predict",
+                        json=record,
+                        timeout=5
+                    )
+                    if response.status_code == 200:
+                        backend_data = response.json()
+                        # Format it to match what display_recommendation expects
+                        if backend_data.get("candidates"):
+                            suggestions = [(c["crop"], c["probability"]) for c in backend_data["candidates"]]
+                        else:
+                            suggestions = [(backend_data.get("recommended_crop", "Unknown"), None)]
+                        
+                        result = {
+                            "type": "ml",
+                            "suggestions": suggestions,
+                            "message": "Prediction from Backend API"
+                        }
+                    else:
+                        st.error(f"Backend API Error: {response.text}")
+                        result = recommend_from_record(record)
+                except requests.exceptions.RequestException:
+                    st.warning("Backend API is unreachable. Falling back to local model.")
+                    result = recommend_from_record(record)
+                
                 display_recommendation(result)
 
         else:
@@ -223,17 +250,32 @@ with tab_fertilizer:
         pot = st.number_input("Potassium level (K)", value=60)
 
         if st.button("Get fertilizer suggestion"):
-            sub = df_fert[(df_fert["Crop_Type"] == chosen_crop) & (df_fert["Soil_Type"] == chosen_soil)]
-            if not sub.empty:
-                mode = sub["Recommended_Fertilizer"].mode()
-                if not mode.empty:
-                    st.success(f"Common recommended fertilizer for selected crop/soil: {mode.iloc[0]}")
+            try:
+                response = requests.post(
+                    "http://localhost:8000/fertilizer",
+                    json={"crop": chosen_crop, "soil_type": chosen_soil, "N": nit, "P": phos, "K": pot},
+                    timeout=5
+                )
+                if response.status_code == 200:
+                    fert_data = response.json()
+                    st.success(f"Backend Recommended Fertilizer: {fert_data.get('fertilizer', 'Unknown')}")
+                    if fert_data.get('details'):
+                        st.info(fert_data['details'].get('message', ''))
                 else:
-                    st.info("No clear mode; showing nearest records")
+                    st.error("Backend Error. Falling back to local data.")
+                    raise requests.exceptions.RequestException()
+            except requests.exceptions.RequestException:
+                sub = df_fert[(df_fert["Crop_Type"] == chosen_crop) & (df_fert["Soil_Type"] == chosen_soil)]
+                if not sub.empty:
+                    mode = sub["Recommended_Fertilizer"].mode()
+                    if not mode.empty:
+                        st.success(f"Common recommended fertilizer for selected crop/soil: {mode.iloc[0]}")
+                    else:
+                        st.info("No clear mode; showing nearest records")
+                        sub = df_fert
+                else:
+                    st.info("No exact match found; using nearest records by N,P,K")
                     sub = df_fert
-            else:
-                st.info("No exact match found; using nearest records by N,P,K")
-                sub = df_fert
 
             # compute simple distance on N,P,K
             numeric_cols = ["Nitrogen_Level", "Phosphorus_Level", "Potassium_Level"]

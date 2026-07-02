@@ -1,0 +1,2 @@
+# This file exists so that the models/ directory is tracked by git.
+# Place your trained model file (best_model.pkl or crop_model.joblib) here.
