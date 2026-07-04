@@ -1,0 +1,4 @@
+Model,Module,Task,Evaluation Metric,Score (%),Actual Metric Value,Additional Metrics
+Crop Extra Trees,Crop Recommendation,Classification,Accuracy,99.54,Accuracy = 0.9954,"Precision, Recall, F1-score"
+Fertilizer XGBoost,Fertilizer Recommendation,Classification,Accuracy,88.55,Accuracy = 0.8855,"Precision, Recall, F1-score"
+Price Stacking Ensemble,Market Price Prediction,Regression,R² Score,82.89,R² = 0.8289,"MAE = 1074.48, RMSE = 1952.32"

@@ -1,0 +1,4 @@
+Module,Selected Model,Problem Type,Evaluation Metric,Performance,Additional Evaluation,Selection Reason
+Crop Recommendation,Extra Trees Classifier,Multi-Class Classification,Accuracy,99.5454%,"Precision, Recall, F1-Score ≈ 1.00",Highest classification accuracy among crop models
+Fertilizer Recommendation,XGBoost Classifier,Multi-Class Classification,Accuracy,88.55%,"Precision, Recall, F1-Score evaluated",Best accuracy and strong performance on fertilizer dataset
+Market Price Prediction,Gradient Boosting Regressor,Regression,R² Score,0.841352,"MAE = 1006.998, RMSE = 1880.104",Highest R² score with lowest prediction error balance

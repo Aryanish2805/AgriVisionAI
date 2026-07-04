@@ -1,0 +1,4 @@
+Module,Selected Model,Task,Primary Metric,Performance
+Crop Recommendation,Extra Trees Classifier,Classification,Accuracy,99.5454%
+Fertilizer Recommendation,XGBoost Classifier,Classification,Accuracy,88.55%
+Price Prediction,Gradient Boosting Regressor,Regression,R² Score,0.841352

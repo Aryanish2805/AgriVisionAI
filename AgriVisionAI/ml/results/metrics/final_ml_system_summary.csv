@@ -1,0 +1,4 @@
+System Module,Selected Algorithm,Evaluation Metric,Performance
+Crop Recommendation,Extra Trees Classifier,Accuracy,99.5454 %
+Fertilizer Recommendation,XGBoost Classifier,Accuracy,88.55 %
+Crop Price Prediction,Gradient Boosting Regressor,R² Score,0.84135

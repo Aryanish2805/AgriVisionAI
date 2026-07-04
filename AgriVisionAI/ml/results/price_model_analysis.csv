@@ -1,0 +1,10 @@
+Rank,Model,Task,R2 Score,MAE,RMSE,Selection Status
+1,Gradient Boosting,Regression,0.8413524895,1006.998,1880.104,Winner - Selected Model
+2,Stacking Ensemble,Regression,0.8275262247,938.01,1960.319,Best MAE
+3,XGBoost,Regression,0.7856223583,1002.656,2185.521,Compared Model
+4,Voting Ensemble,Regression,0.6861275494,1096.585,2644.489,Compared Model
+5,Random Forest,Regression,0.6773009305,1113.718,2681.415,Compared Model
+6,Hist Gradient Boosting,Regression,0.6129074828,1161.131,2936.788,Compared Model
+7,CatBoost,Regression,0.4812792161,1220.145,3399.633,Compared Model
+8,LightGBM,Regression,0.4675704356,1279.799,3444.263,Compared Model
+9,Extra Trees,Regression,0.3552792685,1255.808,3790.103,Compared Model

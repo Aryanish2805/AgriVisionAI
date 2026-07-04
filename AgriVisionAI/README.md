@@ -1,63 +1,90 @@
-# AgriVisionAI
+# AgriVisionAI: AI-Based Crop Recommendation System
 
-## Project
-AI-Based Crop Recommendation System Using Machine Learning
+## Overview
+AgriVisionAI is a Machine Learning based intelligent agriculture assistant that helps farmers make data-driven decisions to increase yield and reduce risk. This repository is the single source of truth for the entire research project, containing the frontend, backend, machine learning models, datasets, and documentation.
 
-## Status
-- Project refocused for crop recommendation
-- Created model logic: `ml_model/crop_recommender.py`
-- Created training pipeline: `ml_model/train.py`
-- Created sample dataset: `dataset/crop_recommendation.csv`
-- Created recommendation entrypoint: `recommend.py`
-- Created Streamlit UI: `frontend/app.py`
-- The dataset directory still contains the extracted PlantVillage dataset, but the crop recommender uses a separate `crop_recommendation.csv` sample dataset.
+## Problem Statement
+Farmers need data-driven crop selection guidance to increase yield and reduce risk.
 
-## How to use
-1. Install dependencies:
+## Features
+- **Crop Recommendation**: Predicts the most suitable crop based on Nitrogen, Phosphorus, Potassium, Temperature, Humidity, Soil pH, and Rainfall.
+- **Fertilizer Recommendation**: Suggests suitable fertilizer using soil nutrients, soil properties, crop type, weather conditions, and previous farming data.
+- **Crop Price Prediction**: Predicts crop market prices using location data, commodity information, and market history.
 
+## Folder Structure
+```
+AgriVisionAI/
+├── frontend/           # Streamlit User Interface
+├── backend/            # Backend APIs
+├── ml/                 # Machine Learning Module
+│   ├── datasets/
+│   ├── models/
+│   ├── crops_training/
+│   ├── fertilizer_training/
+│   ├── price_training/
+│   ├── app.py          # ML specific app
+│   └── requirements.txt
+├── docs/               # Documentation
+├── dataset/            # Global Datasets
+├── requirements.txt    # Main Requirements
+└── README.md           # This File
+```
+
+## Tech Stack
+- **Frontend**: Streamlit
+- **Backend**: Python
+- **Machine Learning**: Pandas, NumPy, Scikit-Learn, XGBoost, CatBoost, Joblib
+
+## Machine Learning Pipeline & Dataset
+- The project integrates multiple models (Decision Tree, Random Forest, XGBoost, CatBoost, etc.).
+- Datasets include `dataset/crop_recommendation.csv` and other datasets under `ml/datasets/`.
+- Training pipelines and notebooks are available in the `ml/` directory.
+
+## Installation
+
+1. Install dependencies for the main project:
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-2. Train the model:
+2. Install dependencies for the ML module:
+```bash
+cd ml
+pip install -r requirements.txt
+```
 
+## Usage
+
+1. Train the models (if required):
 ```bash
 python ml_model/train.py
 ```
 
-3. Evaluate the trained model:
-
-```bash
-python ml_model/evaluate.py
-```
-
-4. Run the command-line example:
-
-```bash
-python recommend.py
-```
-
-5. Run the Streamlit app:
-
+2. Run the main Streamlit app:
 ```bash
 streamlit run frontend/app.py
 ```
 
-## Dataset upload
-- The Streamlit app includes an upload tab for replacing the training CSV dataset.
-- Uploaded dataset must use the columns: `soil_type`, `rainfall_mm`, `temperature_c`, `humidity_pct`, `crop`.
-- The app saves uploaded data to `dataset/crop_recommendation.csv`.
-## Model evaluation dashboard
-- The Streamlit app now includes a `Model Evaluation` tab.
-- Click `Run Model Evaluation` to compute metrics and save a report to `reports/model_evaluation.txt`.
-- If the report exists, it will be displayed in the dashboard.
-- The app also displays accuracy and a confusion matrix chart after evaluation.
-## Notes
-- `ml_model/train.py` trains a simple decision tree model using the current CSV dataset.
-- `ml_model/evaluate.py` writes a performance report to `reports/model_evaluation.txt`.
-- `frontend/app.py` uses the trained model automatically if `ml_model/crop_model.joblib` exists.
-- You can replace `dataset/crop_recommendation.csv` with a larger crop recommendation dataset when ready.
+3. Run the ML-specific Streamlit app:
+```bash
+cd ml
+streamlit run app.py
+```
 
-## Teacher slides
-- Slide 1: Project Name — AI-Based Crop Recommendation System Using Machine Learning
-- Slide 2: Problem — Farmers need data-driven crop selection guidance to increase yield and reduce risk.
+## Results & Screenshots
+- The system successfully integrates Crop Recommendation, Fertilizer Recommendation, and Crop Price Prediction.
+- Model evaluation includes accuracy metrics and confusion matrix charts available via the Streamlit dashboard.
+
+## Future Scope
+- Add real-time weather API integration.
+- Add farmer location-based recommendation.
+- Deploy the application on a cloud platform.
+- Improve model performance using larger datasets.
+
+## Team Members
+- Aryanish
+- Surya
+- Adarsh
+
+## License
+MIT License

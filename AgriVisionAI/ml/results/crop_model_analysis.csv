@@ -1,0 +1,10 @@
+Rank,Model,Task,Accuracy (%),Selection Status
+1,Extra Trees,Multi-Class Classification,99.5454,Winner - Selected Model
+2,Random Forest,Multi-Class Classification,99.3181,Compared Model
+3,Voting Ensemble,Multi-Class Classification,99.3181,Compared Model
+4,XGBoost,Multi-Class Classification,98.8636,Compared Model
+5,Stacking Ensemble,Multi-Class Classification,98.8636,Compared Model
+6,Decision Tree,Multi-Class Classification,98.6363,Compared Model
+7,KNN,Multi-Class Classification,97.0454,Compared Model
+8,SVM,Multi-Class Classification,96.1363,Compared Model
+9,Logistic Regression,Multi-Class Classification,95.909,Compared Model

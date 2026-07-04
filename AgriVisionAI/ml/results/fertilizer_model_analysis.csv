@@ -1,0 +1,12 @@
+Rank,Model,Task,Accuracy (%),Selection Status
+1,XGBoost,Multi-Class Classification,88.55,Winner - Selected Model
+2,Gradient Boosting,Multi-Class Classification,88.55,Equivalent Accuracy
+3,Random Forest,Multi-Class Classification,88.35,Compared Model
+4,Decision Tree,Multi-Class Classification,88.2,Compared Model
+5,Tuned XGBoost,Multi-Class Classification,87.45,Compared Model
+6,Stacking Ensemble,Multi-Class Classification,87.4,Compared Model
+7,Voting Ensemble,Multi-Class Classification,87.4,Compared Model
+8,CatBoost,Multi-Class Classification,87.05,Compared Model
+9,Balanced Random Forest,Multi-Class Classification,86.6,Better Minority Class Handling
+10,Extra Trees,Multi-Class Classification,85.5,Compared Model
+11,SVM,Multi-Class Classification,56.85,Compared Model

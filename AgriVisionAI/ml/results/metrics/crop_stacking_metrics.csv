@@ -1,0 +1,2 @@
+Model,Dataset,Task,Metric,Score,Model File
+Stacking Ensemble,Crop Recommendation,Multi-Class Classification,Accuracy,98.86363636363636,crop_stacking.pkl

@@ -1,0 +1,2 @@
+Model,Dataset,Task,Metric,Score,Model File
+Extra Trees,Crop Recommendation,Multi-Class Classification,Accuracy,99.54545454545455,crop_extra_trees.pkl
