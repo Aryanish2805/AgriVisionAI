@@ -1,0 +1,7 @@
+Model A,Model B,W-statistic,p-value,Significant
+Random Forest,Decision Tree,1.0,0.25,No (p >= 0.05)
+Random Forest,Extra Trees,1.0,0.25,No (p >= 0.05)
+Random Forest,MLP (DNN),0.0,0.0625,No (p >= 0.05)
+Decision Tree,Extra Trees,0.0,0.25,No (p >= 0.05)
+Decision Tree,MLP (DNN),4.5,0.5625,No (p >= 0.05)
+Extra Trees,MLP (DNN),0.0,0.0625,No (p >= 0.05)

@@ -1,5 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from backend.validator import CropPredictionInput, CropPredictionResponse, FertilizerInput, FertilizerResponse
+from backend.validator import CropPredictionInput, CropPredictionResponse, FertilizerInput, FertilizerResponse, AgenticInput, AgenticResponse
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from agent.controller import AgenticController
+
+agent_controller = AgenticController()
 from backend.recommendation import predict_crop
 from backend.fertilizer import recommend_fertilizer
 from backend.database import save_prediction, get_history
@@ -40,5 +46,17 @@ def history():
     try:
         records = get_history()
         return {"history": records}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/agent/recommend", response_model=AgenticResponse)
+def agent_recommend(input_data: AgenticInput):
+    """Invoke the full Agentic framework for comprehensive agricultural recommendation."""
+    try:
+        result = agent_controller.process_request(input_data.farmer_query, input_data.sensor_data)
+        
+        # Save to history can be added here
+        
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

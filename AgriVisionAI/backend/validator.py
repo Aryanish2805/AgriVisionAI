@@ -71,3 +71,16 @@ class ErrorResponse(BaseModel):
     """Standard error response."""
 
     error: str
+
+class AgenticInput(BaseModel):
+    """Input for the Agentic framework."""
+    farmer_query: str = Field(..., description="The query from the farmer in natural language")
+    sensor_data: dict = Field(..., description="Dictionary containing sensor data (N, P, K, pH, etc.)")
+    
+class AgenticResponse(BaseModel):
+    """Response from the Agentic framework."""
+    tasks: list
+    reasoning: str
+    predictions: dict
+    xai_insights: dict
+    final_recommendation: str

@@ -9,13 +9,10 @@ data = pd.read_csv("dataset/Crop_recommendation.csv")
 print(data.head())
 
 # Features
-X = data[['soil_type', 'rainfall_mm', 'temperature_c', 'humidity_pct']]
+X = data[['N', 'P', 'K', 'temperature', 'humidity', 'ph', 'rainfall']]
 
 # Target
-y = data['crop']
-
-# Convert soil_type text to numbers
-X = pd.get_dummies(X)
+y = data['label']
 
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(
