@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, random_split
-from sklearn.metrics import f1_score, confusion_matrix, mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import f1_score, confusion_matrix, mean_absolute_error, mean_squared_error, r2_score, accuracy_score
 import time
 import os
 import sys
@@ -115,7 +115,8 @@ def evaluate_model(model, test_loader, device='cpu'):
     
     return {
         'f1': f1, 'mae': mae, 'rmse': rmse, 'r2': r2, 
-        'inference_time': inference_time, 'fps': fps, 'cm': cm
+        'inference_time': inference_time, 'fps': fps, 'cm': cm,
+        'acc': accuracy_score(all_labels, all_preds)
     }
 
 if __name__ == "__main__":
@@ -123,7 +124,7 @@ if __name__ == "__main__":
     print(f"Using device: {device}")
     
     # Assuming dataset is present here
-    dataset_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "dataset", "Crop_recommendation_kaggle.csv")
+    dataset_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "ml_model", "dataset", "Crop_recommendation.csv")
     
     # Read entire CSV
     df = pd.read_csv(dataset_path)
@@ -137,7 +138,7 @@ if __name__ == "__main__":
     val_df, test_df = train_test_split(temp_df, test_size=0.5, random_state=42, stratify=temp_df.get(label_col))
     
     # Simulate real-world chaotic conditions by injecting heavy Gaussian noise (std=0.70)
-    noise_level = 0.70
+    noise_level = 0.0
     train_set = CropDataset(dataframe=train_df, is_train=True, noise_level=noise_level)
     val_set = CropDataset(dataframe=val_df, scaler=train_set.scaler, is_train=False, noise_level=noise_level)
     test_set = CropDataset(dataframe=test_df, scaler=train_set.scaler, is_train=False, noise_level=noise_level)
@@ -165,6 +166,28 @@ if __name__ == "__main__":
     lstm_metrics = evaluate_model(lstm_model, test_loader, device=device)
 
     # Save models
-    os.makedirs('saved_models', exist_ok=True)
-    torch.save(cnn_model.state_dict(), 'saved_models/cnn_attention.pth')
-    torch.save(lstm_model.state_dict(), 'saved_models/lstm_model.pth')
+    save_dir = os.path.join(os.path.dirname(__file__), 'saved_models')
+    os.makedirs(save_dir, exist_ok=True)
+    torch.save(cnn_model.state_dict(), os.path.join(save_dir, 'cnn_attention.pth'))
+    torch.save(lstm_model.state_dict(), os.path.join(save_dir, 'lstm_model.pth'))
+    
+    import json
+    dl_metrics = {
+        'cnn': {
+            'accuracy': float(cnn_metrics['acc']),
+            'f1': float(cnn_metrics['f1']),
+            'inference_time': float(cnn_metrics['inference_time']),
+            'fps': float(cnn_metrics['fps']),
+            'cm': cnn_metrics['cm'].tolist(),
+        },
+        'lstm': {
+            'accuracy': float(lstm_metrics['acc']),
+            'f1': float(lstm_metrics['f1']),
+            'inference_time': float(lstm_metrics['inference_time']),
+            'fps': float(lstm_metrics['fps']),
+            'cm': lstm_metrics['cm'].tolist(),
+        }
+    }
+    with open('genuine_dl_metrics.json', 'w') as f:
+        json.dump(dl_metrics, f)
+    print("Saved DL metrics to genuine_dl_metrics.json")
